@@ -1,3 +1,4 @@
 import App from './App';
+import Loader from './Loader';
 
-export { App };
+export { App, Loader };
