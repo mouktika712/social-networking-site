@@ -1,11 +1,13 @@
 import styles from '../styles/home.module.css';
+import PropTypes from 'prop-types';
+import { Comments } from '../components';
 
 //get the props and destructure it right there
 const Home = ({ posts }) => {
   return (
     <div className={styles.postsList}>
-      {posts.map((post, index) => (
-        <div className={styles.postWrapper} key={index}>
+      {posts.map((post) => (
+        <div className={styles.postWrapper} key={`post-${post._id}`}>
           <div className={styles.postHeader}>
             <div className={styles.postAvatar}>
               <img
@@ -41,21 +43,18 @@ const Home = ({ posts }) => {
             </div>
 
             <div className={styles.postCommentsList}>
-              <div className={styles.postCommentsItem}>
-                <div className={styles.postCommentHeader}>
-                  <span className={styles.postCommentAuthor}>Bill</span>
-                  <span className={styles.postCommentTime}>a minute ago</span>
-                  <span className={styles.postCommentLikes}>22</span>
-                </div>
-
-                <div className={styles.postCommentContent}>Random comment</div>
-              </div>
+              <Comments comments={post.comments} />
             </div>
           </div>
         </div>
       ))}
     </div>
   );
+};
+
+// Props validation (it make sure the post is of type (typeChecking) array and it is present in the props --> Warning)
+Home.propTypes = {
+  posts: PropTypes.array.isRequired,
 };
 
 export default Home;

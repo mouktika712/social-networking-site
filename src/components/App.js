@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
-import { Home } from '../pages/index';
-import { Loader } from './';
+import { Home} from '../pages/index';
+import { Loader,Navbar } from './';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +32,7 @@ function App() {
   // at that time the Home component will get rendered
   return (
     <div className="App">
+      <Navbar />
       <Home posts={posts} />
     </div>
   );
