@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import styles from '../styles/login.module.css';
 
 const Login = () => {
@@ -14,7 +15,9 @@ const Login = () => {
       </div>
 
       <div className={styles.field}>
-        <button>Submit</button>
+        <button onClick={() => toast.success('Logged In Successfully')}>
+          Submit
+        </button>
       </div>
     </form>
   );

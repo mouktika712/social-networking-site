@@ -3,6 +3,9 @@ import { getPosts } from '../api';
 import { Home, Login } from '../pages/index';
 import { Loader, Navbar } from './';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { options } from '../utils';
 
 const About = () => {
   return <div>About</div>;
@@ -51,6 +54,7 @@ function App() {
           <Route path="/user" element={<UserInfo />} />
         </Routes>
       </Router>
+      <ToastContainer {...options} />
     </div>
   );
 }
