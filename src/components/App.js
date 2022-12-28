@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
-import { Home} from '../pages/index';
-import { Loader,Navbar } from './';
+import { Home, Login } from '../pages/index';
+import { Loader, Navbar } from './';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+const About = () => {
+  return <div>About</div>;
+};
+
+const UserInfo = () => {
+  return <div>User</div>;
+};
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,8 +41,15 @@ function App() {
   // at that time the Home component will get rendered
   return (
     <div className="App">
-      <Navbar />
-      <Home posts={posts} />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home posts={posts}/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/about" element={<About/>}/>
+          <Route path="/user" element={<UserInfo/>}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
