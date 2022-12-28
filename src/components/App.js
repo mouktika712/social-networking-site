@@ -42,12 +42,13 @@ function App() {
   return (
     <div className="App">
       <Router>
+        {/* Link works only inside BrowserRouter and we have added some links inside Navbar (we cant use <a> if we have just 1 html) */}
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home posts={posts}/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/user" element={<UserInfo/>}/>
+          <Route path="/" element={<Home posts={posts} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/user" element={<UserInfo />} />
         </Routes>
       </Router>
     </div>
