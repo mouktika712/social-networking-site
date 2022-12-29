@@ -50,3 +50,10 @@ export const getPosts = (page = 1, limit = 5) => {
     // mode: 'no-cors',
   });
 };
+
+export const login = (email, password) => {
+  return customFetch(API_URLS.login(), {
+    method: 'POST',
+    body: { email, password },
+  });
+};
