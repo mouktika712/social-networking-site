@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { options } from '../utils';
+import { useAuth } from '../hooks';
 
 const About = () => {
   return <div>About</div>;
@@ -16,7 +17,6 @@ const UserInfo = () => {
 };
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -28,16 +28,15 @@ function App() {
         //see the console.log statement above to see the response object structure
         setPosts(response.data.posts);
       }
-
-      //after getting the posts, set the loading to false
-      setLoading(false);
     };
 
     fetchPosts();
   }, []);
 
-  //after posts get loaded setLoading will be set to false so the page will get loaded again(just like setState) OR due to useEffect hook??
-  if (loading) {
+  const auth = useAuth();
+
+  // as soon as the user gets authenticated user is stored inside localstorage and loading is set to false
+  if (auth.loading) {
     return <Loader />;
   }
 
