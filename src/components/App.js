@@ -6,12 +6,8 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { options } from '../utils';
 import { useAuth } from '../hooks';
 
-const About = () => {
-  return <div>About</div>;
-};
-
-const UserInfo = () => {
-  return <div>User</div>;
+const Page404 = () => {
+  return <h1>404</h1>;
 };
 
 function App() {
@@ -31,8 +27,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/user" element={<UserInfo />} />
         </Routes>
       </Router>
       <ToastContainer {...options} />
