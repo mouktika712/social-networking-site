@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { getPosts } from '../api';
 import { Home, Login } from '../pages/index';
 import { Loader, Navbar } from './';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,22 +15,6 @@ const UserInfo = () => {
 };
 
 function App() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      console.log(response);
-
-      if (response.success) {
-        //see the console.log statement above to see the response object structure
-        setPosts(response.data.posts);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
   const auth = useAuth();
 
   // as soon as the user gets authenticated user is stored inside localstorage and loading is set to false
@@ -47,7 +29,7 @@ function App() {
         {/* Link works only inside BrowserRouter and we have added some links inside Navbar (we cant use <a> if we have just 1 html) */}
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home posts={posts} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/user" element={<UserInfo />} />

@@ -1,9 +1,26 @@
 import styles from '../styles/home.module.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Comments } from '../components';
+import { useEffect, useState } from 'react';
+import { getPosts } from '../api';
 
 //get the props and destructure it right there
-const Home = ({ posts }) => {
+const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+      console.log(response);
+
+      if (response.success) {
+        //see the console.log statement above to see the response object structure
+        setPosts(response.data.posts);
+      }
+    };
+
+    fetchPosts();
+  }, []);
   return (
     <div className={styles.postsList}>
       {posts.map((post) => (
@@ -53,8 +70,8 @@ const Home = ({ posts }) => {
 };
 
 // Props validation (it make sure the post is of type (typeChecking) array and it is present in the props --> Warning)
-Home.propTypes = {
-  posts: PropTypes.array.isRequired,
-};
+// Home.propTypes = {
+//   posts: PropTypes.array.isRequired,
+// };
 
 export default Home;
