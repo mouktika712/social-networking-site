@@ -25,7 +25,7 @@ const Navbar = () => {
                 className={styles.userDp}
               />
             </Link>
-            <span>auth.user.name</span>
+            <span>{auth.user.name}</span>
           </div>
         )}
 
@@ -34,7 +34,7 @@ const Navbar = () => {
             {auth.user ? (
               <>
                 <li onClick={auth.logout}>
-                  <button >Log out</button>
+                  <Link to="/logout">Log out</Link>
                 </li>
               </>
             ) : (
@@ -43,7 +43,7 @@ const Navbar = () => {
                   <Link to="/login">Log in</Link>
                 </li>
                 <li>
-                  <Link to="/">Register</Link>
+                  <Link to="/signup">Signup</Link>
                 </li>
               </>
             )}

@@ -1,4 +1,4 @@
-import { children, createContext } from 'react';
+import { createContext } from 'react';
 import { useProvideAuth } from '../hooks';
 
 const initialState = {
@@ -6,13 +6,13 @@ const initialState = {
   login: () => {},
   logout: () => {},
   loading: true,
+  signup: () => {},
 };
 
 export const AuthContext = createContext(initialState);
 
 //this function is added in root index.js file as : <AuthProvider></AuthProvider>
 export const AuthProvider = ({ children }) => {
-  console.log(children);
   const auth = useProvideAuth();
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };

@@ -1,14 +1,10 @@
-import { Home, Login } from '../pages/index';
+import { Home, Login, Signup } from '../pages/index';
 import { Loader, Navbar } from './';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { options } from '../utils';
 import { useAuth } from '../hooks';
-
-const Page404 = () => {
-  return <h1>404</h1>;
-};
 
 function App() {
   const auth = useAuth();
@@ -27,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
       <ToastContainer {...options} />

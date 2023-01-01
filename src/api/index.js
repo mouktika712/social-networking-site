@@ -4,11 +4,12 @@ const customFetch = async (url, { body, ...customConfig }) => {
   const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
   const headers = {
-    'content-type': 'application/x-www-from-urlencoded',
+    'content-type': 'application/x-www-form-urlencoded',
   };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
+    console.log(token);
   }
 
   const config = {
@@ -46,7 +47,6 @@ const customFetch = async (url, { body, ...customConfig }) => {
 export const getPosts = (page = 1, limit = 5) => {
   return customFetch(API_URLS.posts(page, limit), {
     method: 'GET',
-    // mode: 'no-cors',
   });
 };
 
@@ -54,5 +54,12 @@ export const login = (email, password) => {
   return customFetch(API_URLS.login(), {
     method: 'POST',
     body: { email, password },
+  });
+};
+
+export const register = (name, email, password, confirmPassword) => {
+  return customFetch(API_URLS.signup(), {
+    method: 'POST',
+    body: { name, email, password, confirm_password: confirmPassword },
   });
 };
