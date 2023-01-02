@@ -1,4 +1,4 @@
-import { Home, Login, Signup } from '../pages/index';
+import { Home, Login, Signup, Settings } from '../pages/index';
 import { Loader, Navbar } from './';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -24,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
       <ToastContainer {...options} />
