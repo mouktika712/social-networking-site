@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
@@ -11,7 +11,13 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [signingUp, setSigningUp] = useState(false);
   const auth = useAuth();
-  const history = useNavigate();
+  const redirect = useNavigate();
+
+  useEffect(() => {
+    if (auth.user) {
+      return redirect('/');
+    }
+  });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +41,7 @@ const Signup = () => {
     const response = await auth.signup(name, email, password, confirmPassword);
 
     if (response.success) {
-      history('/login');
+      redirect('/login');
       setSigningUp(false);
       toast.success('User registered successfully, please login now');
     } else {

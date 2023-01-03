@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/logout" element={<Login />} />
         </Routes>
       </Router>
       <ToastContainer {...options} />

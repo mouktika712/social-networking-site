@@ -32,9 +32,13 @@ export const useProvideAuth = () => {
   const updateUser = async (userId, name, password, confirmPassword) => {
     const response = await editProfile(userId, name, password, confirmPassword);
 
-    console.log('settings response', response);
     if (response.success) {
       setUser(response.data.user);
+      setItemInLocalStorage(
+        LOCALSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
+
       return {
         success: true,
       };
@@ -52,7 +56,7 @@ export const useProvideAuth = () => {
     console.log(response);
 
     if (response.success) {
-      //seeting the user : this will be available globally due to context
+      //setting the user : this will be available globally due to context
       setUser(response.data.user);
       console.log('hooks login', response.data.token);
       //for persisting user
@@ -61,7 +65,6 @@ export const useProvideAuth = () => {
         response.data.token ? response.data.token : null
       );
 
-      console.log(getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY));
       //this response will be returned to login.js handleSubmit()
       return {
         success: true,

@@ -1,15 +1,15 @@
-import { Flip } from 'react-toastify';
+import { Bounce } from 'react-toastify';
 
 const options = {
-  position: 'top-right',
-  autoClose: 5000,
+  position: 'top-left',
+  autoClose: 2000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: false,
   draggable: true,
   progress: undefined,
   theme: 'colored',
-  transition: Flip,
+  transition: Bounce,
 };
 
 export { options };

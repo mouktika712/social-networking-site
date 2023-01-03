@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
 import styles from '../styles/login.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // till the user enters the details we will disable the Log In button
   const [loggingIn, setLoggingIn] = useState(false);
-
+  const redirect = useNavigate();
   const auth = useAuth();
+
+  useEffect(() => {
+    if (auth.user) {
+      return redirect('/');
+    }
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoggingIn(true);
@@ -28,6 +36,7 @@ const Login = () => {
     }
     setLoggingIn(false);
   };
+
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <span className={styles.loginSignupHeader}>Log In</span>
