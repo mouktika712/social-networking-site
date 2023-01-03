@@ -21,7 +21,6 @@ const Login = () => {
     }
 
     const response = await auth.login(email, password);
-    console.log('response****',response);
     if (response.success) {
       toast.success('Logged In Successfully');
     } else {
@@ -52,7 +51,7 @@ const Login = () => {
       </div>
 
       <div className={styles.field}>
-        <button type='submit' disabled={loggingIn}>
+        <button type="submit" disabled={loggingIn}>
           {loggingIn ? 'Logging in....' : 'Log In'}
         </button>
       </div>

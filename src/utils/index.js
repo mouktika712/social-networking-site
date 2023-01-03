@@ -1,7 +1,7 @@
 export * from './toast-options';
 export * from './constants';
 
-export const setItemInLocalStorage = (value, key) => {
+export const setItemInLocalStorage = (key, value) => {
   if (!key || !value) {
     console.error('Cannot store in Local Storage');
     return;
@@ -27,7 +27,7 @@ export const removeItemFromLocalStorage = (key) => {
     console.error('Cannot get from Local Storage');
     return;
   }
-
+  console.log('Logged out on refresh');
   localStorage.removeItem(key);
 };
 

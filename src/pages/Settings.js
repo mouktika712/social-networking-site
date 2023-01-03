@@ -1,6 +1,7 @@
 import styles from '../styles/settings.module.css';
 import { useAuth } from '../hooks';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Settings = () => {
   const auth = useAuth();
@@ -10,7 +11,47 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [savingForm, setSavingFrom] = useState(false);
 
-  const updateProfile = () => {};
+  const clearForm = () => {
+    setPassword('');
+    setConfirmPassword('');
+  };
+
+  const updateProfile = async () => {
+    setSavingFrom(true);
+    let error = false;
+
+    if (!name || !password || !confirmPassword) {
+      toast.error('Please fill all the fields');
+      error = true;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error('Password and confirm Password does not match');
+      error = true;
+    }
+
+    if (error) {
+      return setSavingFrom(false);
+    }
+
+    const response = await auth.updateUser(
+      auth.user._id,
+      name,
+      password,
+      confirmPassword
+    );
+
+    
+    if (response.success) {
+      setEditMode(false);
+      setSavingFrom(false);
+      clearForm();
+      return toast.success('Profile updated successfully');
+    } else {
+      setSavingFrom(false);
+      return toast.error(response.message);
+    }
+  };
 
   return (
     <div className={styles.settings}>

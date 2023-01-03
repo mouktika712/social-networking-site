@@ -17,7 +17,7 @@ export const API_URLS = {
     `${API_ROOT}/likes?likeable_id=${itemId}&likeable_type=${itemType}`,
   comment: () => `${API_ROOT}/comments`, // POST - create, GET - list of comments
   deleteComment: (commentId) => `${API_ROOT}/comments?comment_id=${commentId}`,
-  editUser: () => `${API_ROOT}/users/edit`,
+  editUser: () => `${API_ROOT}users/edit`,
   userInfo: (userId) => `${API_ROOT}/users/${userId}`,
   searchUsers: (searchText) => `${API_ROOT}/users/search?text=${searchText}`,
 };
