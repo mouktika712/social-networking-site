@@ -3,6 +3,7 @@ import styles from '../styles/home.module.css';
 import { Comments } from '../components';
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
+import { Link } from 'react-router-dom';
 
 //get the props and destructure it right there
 const Home = () => {
@@ -32,7 +33,13 @@ const Home = () => {
                 alt="user-pic"
               />
               <div>
-                <span className={styles.postAuthor}>{post.user.name}</span>
+                <Link
+                  to={`/user/${post.user._id}`}
+                  state={{ user: post.user }}
+                  className={styles.postAuthor}
+                >
+                  {post.user.name}
+                </Link>
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>
