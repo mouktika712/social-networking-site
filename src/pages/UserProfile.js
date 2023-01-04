@@ -1,11 +1,56 @@
 import styles from '../styles/settings.module.css';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchUserProfile } from '../api';
+import { toast } from 'react-toastify';
+import { Loader } from '../components';
+import { useAuth } from '../hooks';
 
 const UserProfile = () => {
-  const location = useLocation();
-  console.log(location);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const { userId } = useParams();
+  const redirect = useNavigate();
+  const auth = useAuth();
 
-  const {user = {}} = location.state;
+  useEffect(() => {
+    const getUser = async () => {
+      setLoading(true);
+
+      const response = await fetchUserProfile(userId);
+
+      if (response.success) {
+        setUser(response.data.user);
+        // console.log('user***',response.data.user);
+      } else {
+        toast.error(response.message);
+        return redirect('/');
+      }
+      setLoading(false);
+    };
+
+    getUser();
+  }, [userId, redirect]);
+
+  const checkIfUserIsAFriend = () => {
+    // get the friends array of current logged in user (see the docs for structure)
+    const friends = auth.user.friendships;
+    // console.log(auth.user);
+
+    const friendIds = friends?.map((friend) => friend.to_user._id);
+    const index = friendIds?.indexOf(userId);
+    if (index !== -1) {
+      // console.log(index);
+      return true;
+    }
+
+    return false;
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
@@ -26,8 +71,11 @@ const UserProfile = () => {
       </div>
 
       <div className={styles.btnGrp}>
-        <button className={`button ${styles.saveBtn}`}>Add Friend</button>
-        <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+        {checkIfUserIsAFriend() ? (
+          <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+        ) : (
+          <button className={`button ${styles.saveBtn}`}>Add Friend</button>
+        )}
       </div>
     </div>
   );

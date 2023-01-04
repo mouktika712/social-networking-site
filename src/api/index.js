@@ -9,7 +9,6 @@ const customFetch = async (url, { body, ...customConfig }) => {
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
-    console.log(token);
   }
 
   const config = {
@@ -68,5 +67,11 @@ export const editProfile = (userId, name, password, confirmPassword) => {
   return customFetch(API_URLS.editUser(), {
     method: 'POST',
     body: { id: userId, password, confirm_password: confirmPassword, name },
+  });
+};
+
+export const fetchUserProfile = (userId) => {
+  return customFetch(API_URLS.userInfo(userId), {
+    method: 'GET',
   });
 };
