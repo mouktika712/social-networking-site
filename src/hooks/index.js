@@ -1,5 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import { editProfile, login as userLogin, register } from '../api';
+import {
+  editProfile,
+  login as userLogin,
+  register,
+  fetchUserFriends,
+} from '../api';
 import { AuthContext } from '../providers/AuthProvider';
 import jwt from 'jwt-decode';
 import {
@@ -18,15 +23,44 @@ export const useProvideAuth = () => {
   const [loading, setLoading] = useState(true);
 
   //After auth the user will be set: setUser() and added to the LS..that means the state will change i.e the useEffect() called: we will retrive the token from the LS decode it using jwt and store it again in the LS
+  // useEffect(() => {
+  //   const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+
+  //   if (userToken) {
+  //     const user = jwt(userToken);
+  //     setUser(user);
+  //   }
+
+  //   setLoading(false);
+  // }, []);
+
+  //After auth the user will be set: setUser() and added to the LS..that means the state will change i.e the useEffect() called: we will retrive the token from the LS decode it using jwt and store it again in the LS
   useEffect(() => {
-    const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    const getUser = async () => {
+      const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
-    if (userToken) {
-      const user = jwt(userToken);
-      setUser(user);
-    }
+      if (userToken) {
+        const user = jwt(userToken);
 
-    setLoading(false);
+        // Add the friends array in user
+        const response = await fetchUserFriends();
+        // console.log(response);
+
+        let friends = [];
+        if (response.success) {
+          friends = response.data.friends;
+        } else {
+          friends = [];
+        }
+        setUser({
+          ...user,
+          friends,
+        });
+      }
+
+      setLoading(false);
+    };
+    getUser();
   }, []);
 
   const updateUser = async (userId, name, password, confirmPassword) => {
@@ -97,6 +131,18 @@ export const useProvideAuth = () => {
     removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
   };
 
+  // Friendships needs to be updated in the api database as well as the context user
+  const updateUserFriends = (addFriend, friend) => {
+    if (addFriend) {
+      setUser({
+        ...user,
+        friends: [...user.friends, friend],
+      });
+      console.log(user);
+      return;
+    }
+  };
+
   return {
     user,
     login,
@@ -104,5 +150,6 @@ export const useProvideAuth = () => {
     loading,
     signup,
     updateUser,
+    updateUserFriends,
   };
 };

@@ -70,8 +70,26 @@ export const editProfile = (userId, name, password, confirmPassword) => {
   });
 };
 
+// Using this inside pages/UserProfile
 export const fetchUserProfile = (userId) => {
   return customFetch(API_URLS.userInfo(userId), {
     method: 'GET',
+  });
+};
+
+/* using this inside hooks/ProvideAuth to use in context (need to check whether the post's author is FRIEND of the current 
+logged in user or not...so instead of making an api call every single time when the user goes on someone's profile page...
+we will just get the friends array and set it inside the context user object)*/
+
+export const fetchUserFriends = () => {
+  return customFetch(API_URLS.friends(), {
+    method: 'GET',
+  });
+};
+
+// using it into the hooks/ProviderAuth
+export const addFriend = (userId) => {
+  return customFetch(API_URLS.createFriendship(userId), {
+    method: 'POST',
   });
 };
