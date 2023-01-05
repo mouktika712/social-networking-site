@@ -1,7 +1,7 @@
 import styles from '../styles/settings.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addFriend, fetchUserProfile } from '../api';
+import { addFriend, fetchUserProfile, removeFriend } from '../api';
 import { toast } from 'react-toastify';
 import { Loader } from '../components';
 import { useAuth } from '../hooks';
@@ -48,7 +48,24 @@ const UserProfile = () => {
     return false;
   };
 
-  const handleRemoveFriendClick = () => {};
+  const handleRemoveFriendClick = async () => {
+    setRequestInProgress(true);
+
+    // userId comming from the useParams hook
+    const response = await removeFriend(userId);
+
+    if (response.success) {
+      // get the friend with matching userId (array)
+      const friendship = auth.user.friends.filter(
+        (friend) => friend.to_user._id === userId
+      );
+      auth.updateUserFriends(false, friendship[0]);
+      toast.success('Friend removed Successfully!');
+    } else {
+      toast.error(response.message);
+    }
+    setRequestInProgress(false);
+  };
 
   const handleAddFriendClick = async () => {
     setRequestInProgress(true);
@@ -57,6 +74,7 @@ const UserProfile = () => {
     const response = await addFriend(userId);
 
     if (response.success) {
+      console.log(response);
       const { friendship } = response.data;
       auth.updateUserFriends(true, friendship);
       toast.success('Friend added Successfully!');

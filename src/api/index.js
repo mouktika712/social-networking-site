@@ -87,9 +87,16 @@ export const fetchUserFriends = () => {
   });
 };
 
-// using it into the hooks/ProviderAuth
+// using it in the UserProfile
 export const addFriend = (userId) => {
   return customFetch(API_URLS.createFriendship(userId), {
+    method: 'POST',
+  });
+};
+
+// using it in the UserProfile
+export const removeFriend = (userId) => {
+  return customFetch(API_URLS.removeFriend(userId), {
     method: 'POST',
   });
 };

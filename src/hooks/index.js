@@ -23,18 +23,6 @@ export const useProvideAuth = () => {
   const [loading, setLoading] = useState(true);
 
   //After auth the user will be set: setUser() and added to the LS..that means the state will change i.e the useEffect() called: we will retrive the token from the LS decode it using jwt and store it again in the LS
-  // useEffect(() => {
-  //   const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
-
-  //   if (userToken) {
-  //     const user = jwt(userToken);
-  //     setUser(user);
-  //   }
-
-  //   setLoading(false);
-  // }, []);
-
-  //After auth the user will be set: setUser() and added to the LS..that means the state will change i.e the useEffect() called: we will retrive the token from the LS decode it using jwt and store it again in the LS
   useEffect(() => {
     const getUser = async () => {
       const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
@@ -133,14 +121,23 @@ export const useProvideAuth = () => {
 
   // Friendships needs to be updated in the api database as well as the context user
   const updateUserFriends = (addFriend, friend) => {
+    console.log(friend);
     if (addFriend) {
       setUser({
         ...user,
         friends: [...user.friends, friend],
       });
-      console.log(user);
       return;
     }
+
+    // here we are getting array with removed "friend"
+    const newFriends = user.friends.filter(
+      (f) => f.to_user._id !== friend.to_user._id
+    );
+    setUser({
+      ...user,
+      friends: newFriends,
+    });
   };
 
   return {
