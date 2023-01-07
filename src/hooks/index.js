@@ -49,7 +49,7 @@ export const useProvideAuth = () => {
       setLoading(false);
     };
     getUser();
-  }, []);
+  },[user]);
 
   const updateUser = async (userId, name, password, confirmPassword) => {
     const response = await editProfile(userId, name, password, confirmPassword);
