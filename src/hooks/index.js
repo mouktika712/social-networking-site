@@ -4,8 +4,9 @@ import {
   login as userLogin,
   register,
   fetchUserFriends,
+  getPosts,
 } from '../api';
-import { AuthContext } from '../providers/AuthProvider';
+import { AuthContext, PostsContext } from '../providers';
 import jwt from 'jwt-decode';
 import {
   setItemInLocalStorage,
@@ -49,7 +50,7 @@ export const useProvideAuth = () => {
       setLoading(false);
     };
     getUser();
-  },[user]);
+  }, [user]);
 
   const updateUser = async (userId, name, password, confirmPassword) => {
     const response = await editProfile(userId, name, password, confirmPassword);
@@ -148,5 +149,42 @@ export const useProvideAuth = () => {
     signup,
     updateUser,
     updateUserFriends,
+  };
+};
+
+// Posts Provider **************************
+
+export const usePosts = () => {
+  return useContext(PostsContext);
+};
+
+export const useProvidePosts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      const response = await getPosts();
+      console.log(response);
+
+      if (response.success) {
+        //see the console.log statement above to see the response object structure
+        setPosts(response.data.posts);
+      }
+    };
+    fetchPosts();
+    setLoading(false);
+  }, []);
+
+  const addPostToState = (post) => {
+    const newPosts = [post, ...posts];
+    setPosts(newPosts);
+  };
+
+  return {
+    data: posts,
+    loading,
+    addPostToState,
   };
 };

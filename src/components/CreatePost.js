@@ -1,12 +1,31 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { addPost } from '../api';
+import { usePosts } from '../hooks';
 import styles from '../styles/home.module.css';
 
 const CreatePost = () => {
   const [post, setPost] = useState('');
   const [addingPost, setAddingPost] = useState(false);
+  const posts = usePosts();
 
-  const handleAddPostClick = () => {
+  const handleAddPostClick = async () => {
     setAddingPost(true);
+
+    if (!post) {
+      toast.error('Blank Post Cannot be Created!');
+      setAddingPost(false);
+      return;
+    }
+    const response = await addPost(post);
+
+    if (response.success) {
+      setPost('');
+      posts.addPostToState(response.data.post);
+      toast.success('Post Created Succesfully!');
+    } else {
+      toast.error(response.message);
+    }
 
     setAddingPost(false);
   };

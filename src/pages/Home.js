@@ -1,34 +1,22 @@
 import styles from '../styles/home.module.css';
 // import PropTypes from 'prop-types';
-import { Comments, CreatePost, FriendList } from '../components';
-import { useEffect, useState } from 'react';
-import { getPosts } from '../api';
+import { Comments, CreatePost, FriendList, Loader } from '../components';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth, usePosts } from '../hooks';
 
 //get the props and destructure it right there
 const Home = () => {
-  const [posts, setPosts] = useState([]);
   const auth = useAuth();
+  const posts = usePosts();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      console.log(response);
-
-      if (response.success) {
-        //see the console.log statement above to see the response object structure
-        setPosts(response.data.posts);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  if (posts.loading) {
+    return <Loader />;
+  }
   return (
     <div className={styles.home}>
       <div className={styles.postsList}>
         <CreatePost />
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
               <div className={styles.postAvatar}>
