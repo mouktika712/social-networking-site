@@ -159,26 +159,37 @@ export const usePosts = () => {
 };
 
 export const useProvidePosts = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
       const response = await getPosts();
-      console.log(response);
 
       if (response.success) {
-        //see the console.log statement above to see the response object structure
         setPosts(response.data.posts);
       }
+
+      setLoading(false);
     };
+
     fetchPosts();
-    setLoading(false);
   }, []);
 
   const addPostToState = (post) => {
     const newPosts = [post, ...posts];
+
+    setPosts(newPosts);
+  };
+
+  const addComment = (comment, postId) => {
+    const newPosts = posts.map((post) => {
+      if (post._id === postId) {
+        return { ...post, comments: [...post.comments, comment] };
+      }
+      return post;
+    });
+
     setPosts(newPosts);
   };
 
@@ -186,5 +197,6 @@ export const useProvidePosts = () => {
     data: posts,
     loading,
     addPostToState,
+    addComment,
   };
 };

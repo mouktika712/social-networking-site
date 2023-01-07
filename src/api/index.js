@@ -107,3 +107,13 @@ export const addPost = (content) => {
     body: { content },
   });
 };
+
+export const createComment = (content, postId) => {
+  return customFetch(API_URLS.comment(), {
+    method: 'POST',
+    body: {
+      post_id: postId,
+      content,
+    },
+  });
+};
