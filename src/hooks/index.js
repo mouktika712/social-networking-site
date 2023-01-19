@@ -46,7 +46,6 @@ export const useProvideAuth = () => {
           friends,
         });
       }
-
       setLoading(false);
     };
     getUser();
@@ -168,6 +167,7 @@ export const useProvidePosts = () => {
 
       if (response.success) {
         setPosts(response.data.posts);
+        console.log(response.data.posts)
       }
 
       setLoading(false);
@@ -183,9 +183,28 @@ export const useProvidePosts = () => {
   };
 
   const addComment = (comment, postId) => {
+    // map() return an array after performing the opearation on each array element
     const newPosts = posts.map((post) => {
       if (post._id === postId) {
         return { ...post, comments: [...post.comments, comment] };
+      }
+      return post;
+    });
+
+    setPosts(newPosts);
+  };
+
+  const toggleALike = (postId, removeLike, userId) => {
+    const newPosts = posts.map((post) => {
+      if (post._id === postId) {
+        if (!removeLike) {
+          return { ...post, likes: [...post.likes, postId] };
+        } else {
+          const newLikes = post.likes.filter((likeUserId) => {
+            return postId !== likeUserId;
+          });
+          return { ...post, likes: newLikes };
+        }
       }
       return post;
     });
@@ -198,5 +217,6 @@ export const useProvidePosts = () => {
     loading,
     addPostToState,
     addComment,
+    toggleALike,
   };
 };
