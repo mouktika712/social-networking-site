@@ -194,29 +194,29 @@ export const useProvidePosts = () => {
     setPosts(newPosts);
   };
 
-  const toggleALike = (postId, removeLike, userId) => {
-    const newPosts = posts.map((post) => {
-      if (post._id === postId) {
-        if (!removeLike) {
-          return { ...post, likes: [...post.likes, postId] };
-        } else {
-          const newLikes = post.likes.filter((likeUserId) => {
-            return postId !== likeUserId;
-          });
-          return { ...post, likes: newLikes };
-        }
-      }
-      return post;
-    });
+  // const toggleALike = (postId, removeLike, userId) => {
+  //   const newPosts = posts.map((post) => {
+  //     if (post._id === postId) {
+  //       if (!removeLike) {
+  //         return { ...post, likes: [...post.likes, postId] };
+  //       } else {
+  //         const newLikes = post.likes.filter((likeUserId) => {
+  //           return postId !== likeUserId;
+  //         });
+  //         return { ...post, likes: newLikes };
+  //       }
+  //     }
+  //     return post;
+  //   });
 
-    setPosts(newPosts);
-  };
+  //   setPosts(newPosts);
+  // };
 
   return {
     data: posts,
     loading,
     addPostToState,
     addComment,
-    toggleALike,
+    // toggleALike,
   };
 };

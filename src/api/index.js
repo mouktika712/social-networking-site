@@ -119,8 +119,14 @@ export const createComment = (content, postId) => {
 };
 
 // itemType = post/comment, same for id
-export const toggleLike = (itemId ,itemType) => {
-  return customFetch(API_URLS.toggleLike(itemId ,itemType), {
+export const toggleLike = (itemId, itemType) => {
+  return customFetch(API_URLS.toggleLike(itemId, itemType), {
     method: 'POST',
+  });
+};
+
+export const searchUsers = (searchText) => {
+  return customFetch(API_URLS.searchUsers(searchText), {
+    method: 'GET',
   });
 };

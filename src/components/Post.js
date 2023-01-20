@@ -54,7 +54,7 @@ const Post = ({ post }) => {
       } else {
         toast.success('Like added successfully!');
       }
-      posts.toggleALike(post._id, response.data.deleted, auth.user._id);
+      // posts.toggleALike(post._id, response.data.deleted, auth.user._id);
     } else {
       toast.error(response.message);
     }
